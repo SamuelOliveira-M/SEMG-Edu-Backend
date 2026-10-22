@@ -1,3 +1,5 @@
+import 'express-async-errors';
+import { errorHandler } from './middlewares/errorHandler';
 import express,{Request,Response,NextFunction} from 'express'
 import morgan from 'morgan'
 import swaggerUi from 'swagger-ui-express'
@@ -58,17 +60,11 @@ app.use(schoolRoutes)
 app.use(teacherRoutes)
 
 app.get('/',(req,res)=>{
-  res.status(200).send('<h1>Está Online</h1>')
+  res.status(200).send('<h1>EstÃƒÂ¡ Online</h1>')
 })
 
-app.use((error:Error,request:Request,response:Response,next:NextFunction)=>{
-  response.json({
-    status:"error",
-    message:error.message
-  });
-  next()
-})
+app.use(errorHandler)
 
 app.listen(port,()=>{
-  console.log(`Aplicação online na porta ${port}`)
+  console.log(`AplicaÃƒÂ§ÃƒÂ£o online na porta ${port}`)
 })
