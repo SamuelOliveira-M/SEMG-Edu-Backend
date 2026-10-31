@@ -1,18 +1,7 @@
-import express,{Request,Response,NextFunction} from 'express'
-import morgan from 'morgan'
-import swaggerUi from 'swagger-ui-express'
-import swaggerDocs from './swagger.json'
 import dotenv from "dotenv";
 import admin from "firebase-admin";
-import path from 'path';
-import * as fs from 'fs';
-import cors from 'cors';
-
-
-import studentRoutes from './routes/studentRoutes';
-import schoolRoutes from './routes/schoolRoutes';
-import teacherRoutes from './routes/teacherRoutes';
 import { formatPrivateKey } from './services/formatPrivateKey';
+import app from './app';
 
 dotenv.config();
 
@@ -26,7 +15,7 @@ const serviceAccount = {
   "auth_uri": process.env.auth_uri,
   "token_uri": process.env.token_uri,
   "auth_provider_x509_cert_url":process.env.auth_provider_x509_cert_url,
-  "client_x509_cert_url":process.env.client_x509_cert_url, 
+  "client_x509_cert_url":process.env.client_x509_cert_url,
   "universe_domain": process.env.universe_domain
 } as admin.ServiceAccount ;
 
@@ -39,35 +28,7 @@ admin.initializeApp({
 });
 
 
-const app = express()
 const port = process.env.PORT || 3333
-
-app.use(cors());
-
-app.options('*', cors());
-
-
-app.use(express.json())
-app.use(express.urlencoded({extended:true}))
-app.use(morgan('dev'))
-
-app.use('/docs',swaggerUi.serve,swaggerUi.setup(swaggerDocs))
-
-app.use(studentRoutes)
-app.use(schoolRoutes)
-app.use(teacherRoutes)
-
-app.get('/',(req,res)=>{
-  res.status(200).send('<h1>Está Online</h1>')
-})
-
-app.use((error:Error,request:Request,response:Response,next:NextFunction)=>{
-  response.json({
-    status:"error",
-    message:error.message
-  });
-  next()
-})
 
 app.listen(port,()=>{
   console.log(`Aplicação online na porta ${port}`)
