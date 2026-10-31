@@ -21,7 +21,7 @@ class CreateTeacherModel{
 
 		if (teacherAlreadyExists) {
 			return {
-				"message":"Disciplina já existe no sistema",
+				"message":"Professor já existe no sistema", 
 				"data":teacherAlreadyExists
 			}
 		}

@@ -35,7 +35,9 @@ const schoolRoutes = express.Router();
 schoolRoutes.post("/escola",TransetionSchoolController.transetionSchool)
 schoolRoutes.post("/create/turma/:cod_inep",TransetionSchoolClassController.transetionSchoolClass)
 schoolRoutes.post("/disciplina",CreateSubjectsController.createSubjectsController)
-schoolRoutes.post("/create/professor",multer.single('file'),uploadImage,CreateTeacherController.createTeacherController)
+//schoolRoutes.post("/create/professor",multer.single('file'),uploadImage,CreateTeacherController.createTeacherController)
+schoolRoutes.post("/create/professor",CreateTeacherController.createTeacherController)
+
 schoolRoutes.post("/nota/:registrationId",CreateGradeController.CreateGradeController)
 schoolRoutes.post("/gestor",CreateManagerController.createTeacherController)
 schoolRoutes.post("/allocation/teacher",AddSubjectToTeacherController.AddSubjectToTeacher)

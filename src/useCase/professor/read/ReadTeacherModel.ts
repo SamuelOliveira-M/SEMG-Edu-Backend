@@ -9,9 +9,9 @@ class ReadTeacherModel{
 				email: email,
 			},
 		});
-
+		
 		if(!teacherAlreadyExists){
-			console.log('Disciplina não existe')
+			console.log('Professor não existe')
 			return;
 		}
 

@@ -7,13 +7,14 @@ class CreateTeacherController{
 	async createTeacherController(req:Request,res:Response){
 		
 		const dataTeacherJson = req.body.data
+		console.log(dataTeacherJson)
 		
-		let dataTeacher = JSON.parse(dataTeacherJson) 
-		dataTeacher.url_image = req.headers.filebaseUrl as string;
-		
+		//let dataTeacher = JSON.parse(dataTeacherJson) 
+		//dataTeacher.url_image = req.headers.filebaseUrl as string;
+
 		try{
 
-			const validatorTeacher = Validator.teacherValidator(dataTeacher)
+			const validatorTeacher = Validator.teacherValidator(dataTeacherJson)
 
 			
 			if(validatorTeacher){
@@ -23,7 +24,7 @@ class CreateTeacherController{
 				})
 			}
 			
-			const teacher = await CreateTeacherModel.createTeacherModel(dataTeacher) 
+			const teacher = await CreateTeacherModel.createTeacherModel(dataTeacherJson) 
 			
 			return res.json(teacher)
 
