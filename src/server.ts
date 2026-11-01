@@ -5,7 +5,7 @@ import app from './app';
 
 dotenv.config();
 
-const serviceAccount = {
+/*const serviceAccount = {
   "type": process.env.type,
   "project_id":process.env.project_id,
   "private_key_id": process.env.private_key_id,
@@ -27,6 +27,7 @@ admin.initializeApp({
   storageBucket: BUCKET
 });
 
+*/
 
 const port = process.env.PORT || 3333
 
