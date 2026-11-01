@@ -6,7 +6,8 @@
   "scripts": {
     "build": "npx prisma generate && tsc -p .",
     "start": "npm run build && node ./build/server.js",
-    "dev": "tsx watch src/server.ts",
+    "dev": "node --env-file=.env.dev node_modules/tsx/dist/cli.mjs watch src/server.ts",
+    "dev:remote": "tsx watch src/server.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
@@ -17,7 +18,7 @@
     "db:migrate": "node --env-file=.env.dev node_modules/prisma/build/index.js migrate deploy && node --env-file=.env.dev node_modules/tsx/dist/cli.mjs scripts/prepare-db.ts",
     "db:seed": "node --env-file=.env.dev node_modules/tsx/dist/cli.mjs scripts/seed-dev.ts",
     "db:studio": "node --env-file=.env.dev node_modules/prisma/build/index.js studio --port 5555 --browser none",
-    "dev:local": "node --env-file=.env.dev node_modules/tsx/dist/cli.mjs watch src/server.ts"
+    "dev:local": "npm run dev"
   },
   "keywords": [],
   "author": "Samuel Oliveira de Moura",
