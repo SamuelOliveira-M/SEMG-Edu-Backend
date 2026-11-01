@@ -12,7 +12,8 @@ SEMG.Edu backend: an Express + TypeScript REST API (Postgres via Prisma 7) for a
 - `npm run build` — `npx prisma generate && tsc -p .` (output to `./build`).
 - `npm start` — build, then `node ./build/server.js`.
 - `npm test` (Vitest + Supertest), `npm run test:unit` (no DB needed), `npm run test:coverage`. Single file: `npx vitest run tests/integration/auth.test.ts`; single test: add `-t "<name>"`.
-- Integration tests need a local Postgres: `npm run test:db:up` (Docker, port 5433) or any local Postgres, plus `.env.test` copied from `.env.test.example`.
+- Integration tests need a local Postgres. Without Docker: `npm run db:up` (embedded-postgres, port 5434, data in `.pgdata/`, creates `semg_dev` and `semg_test`; keep that terminal open), plus `.env.test` copied from `.env.test.example`.
+- Local dev DB: `npm run db:up` → `cp .env.dev.example .env.dev` → `npm run db:migrate` → `npm run db:seed` (logins `gestor@semg.edu`/`prof1@semg.edu`, password `123456`) → `npm run dev:local` (API on the local DB) and `npm run db:studio` (Prisma Studio, http://localhost:5555). These scripts load `.env.dev`, never `.env` (remote Supabase).
 - No lint script is configured (eslint is installed but has no script/config).
 - Prisma: `npx prisma migrate dev` / `npx prisma generate`. Schema in `prisma/schema.prisma`, migrations in `prisma/migrations`.
 
