@@ -46,7 +46,6 @@ class AutenticationModel{
 			const user:IUser = {
 				id:teacherAlreadyExists.id,
 				nome: teacherAlreadyExists.nome,
-				senha: teacherAlreadyExists.senha, 
 				isAdmin:false,
 				accessToken: token,
 				idRefreshToken: refreshToken.id,
@@ -96,8 +95,7 @@ class AutenticationModel{
 		const user:IUser = {
 			id:headmistressAlreadyExists.id,
 			nome: headmistressAlreadyExists.nome,
-			senha: headmistressAlreadyExists.senha, 
-			isAdmin:false,
+			isAdmin:true,
 			accessToken: token,
 			idRefreshToken: refreshToken.id,
 		}

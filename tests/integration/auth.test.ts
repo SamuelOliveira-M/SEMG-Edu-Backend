@@ -60,14 +60,12 @@ describe('POST /login', () => {
     expect(res.status).toBe(401)
   })
 
-  // Achado da revisão: a resposta inclui o hash da senha.
-  it.fails('não deveria expor o hash da senha na resposta', async () => {
+  it('não deveria expor o hash da senha na resposta', async () => {
     const res = await request(app).post('/login').send({ email: 'ana@exemplo.com', senha: 'segredo123' })
     expect(res.body.senha).toBeUndefined()
   })
 
-  // Achado da revisão: o corpo do usuário gestor retorna isAdmin:false mesmo com token admin.
-  it.fails('deveria devolver isAdmin:true no corpo para o gestor', async () => {
+  it('deveria devolver isAdmin:true no corpo para o gestor', async () => {
     const res = await request(app).post('/login').send({ email: 'gestora@exemplo.com', senha: 'segredo123' })
     expect(res.body.isAdmin).toBe(true)
   })
