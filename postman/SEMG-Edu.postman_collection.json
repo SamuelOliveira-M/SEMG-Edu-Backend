@@ -1,0 +1,1285 @@
+{
+  "info": {
+    "name": "SEMG.Edu API",
+    "description": "Gerada a partir de src/routes. Rode \"Login\" primeiro: o token e o refreshTokenId são salvos nas variáveis da coleção. Ajuste os ids ({{classId}}, {{teacherId}}...) conforme os dados criados.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Autenticação",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "description": "Token cru, sem \"Bearer\". Hoje nenhuma rota exige autenticação.",
+                "disabled": true
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"gestor@semg.edu\",\n  \"senha\": \"123456\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const d = pm.response.json();",
+                  "if (d.accessToken) pm.collectionVariables.set(\"token\", d.accessToken);",
+                  "if (d.idRefreshToken) pm.collectionVariables.set(\"refreshTokenId\", d.idRefreshToken);",
+                  "if (d.id) pm.collectionVariables.set(\"userId\", d.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Refresh token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "description": "Token cru, sem \"Bearer\". Hoje nenhuma rota exige autenticação.",
+                "disabled": true
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/refreshtoken",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "refreshtoken"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshTokenId\": \"{{refreshTokenId}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Gestor",
+      "item": [
+        {
+          "name": "Criar gestor",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "description": "Token cru, sem \"Bearer\". Hoje nenhuma rota exige autenticação.",
+                "disabled": true
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/gestor",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "gestor"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Maria Gestora\",\n  \"email\": \"maria@semg.edu\",\n  \"senha\": \"123456\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Listar gestores",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "description": "Token cru, sem \"Bearer\". Hoje nenhuma rota exige autenticação.",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/gestor",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "gestor"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Escola",
+      "item": [
+        {
+          "name": "Criar escola (+ endereço)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "description": "Token cru, sem \"Bearer\". Hoje nenhuma rota exige autenticação.",
+                "disabled": true
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/escola",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "escola"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dataSchool\": {\n    \"nome\": \"Escola Modelo\",\n    \"cod_inep\": \"12345678\",\n    \"email\": \"escola@semg.edu\"\n  },\n  \"dataAddress\": {\n    \"rua\": \"Rua das Flores, 100\",\n    \"cidade\": \"Fortaleza\",\n    \"estado\": \"CE\",\n    \"cep\": \"60000000\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Estatísticas",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "description": "Token cru, sem \"Bearer\". Hoje nenhuma rota exige autenticação.",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/getStatistics",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "getStatistics"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Turma",
+      "item": [
+        {
+          "name": "Criar turma",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "description": "Token cru, sem \"Bearer\". Hoje nenhuma rota exige autenticação.",
+                "disabled": true
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/create/turma/:cod_inep",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "create",
+                "turma",
+                ":cod_inep"
+              ],
+              "variable": [
+                {
+                  "key": "cod_inep",
+                  "value": "12345678"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"A\",\n  \"serie\": 5,\n  \"turno\": \"manhã\",\n  \"status\": \"aberta\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Listar turmas (busca opcional)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "description": "Token cru, sem \"Bearer\". Hoje nenhuma rota exige autenticação.",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/class/:query",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "class",
+                ":query"
+              ],
+              "variable": [
+                {
+                  "key": "query",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Turma por id",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "description": "Token cru, sem \"Bearer\". Hoje nenhuma rota exige autenticação.",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/classroom/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "classroom",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "{{classId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Turmas do professor",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "description": "Token cru, sem \"Bearer\". Hoje nenhuma rota exige autenticação.",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/tumasdoprofessorrr/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "tumasdoprofessorrr",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "{{teacherId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remover turma",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "description": "Token cru, sem \"Bearer\". Hoje nenhuma rota exige autenticação.",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/remove/class/:classId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "remove",
+                "class",
+                ":classId"
+              ],
+              "variable": [
+                {
+                  "key": "classId",
+                  "value": "{{classId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Disciplina",
+      "item": [
+        {
+          "name": "Criar disciplina",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "description": "Token cru, sem \"Bearer\". Hoje nenhuma rota exige autenticação.",
+                "disabled": true
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/disciplina",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "disciplina"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Matemática\",\n  \"carga_horaria\": 80\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Disciplinas da turma",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "description": "Token cru, sem \"Bearer\". Hoje nenhuma rota exige autenticação.",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/subjects/:classId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "subjects",
+                ":classId"
+              ],
+              "variable": [
+                {
+                  "key": "classId",
+                  "value": "{{classId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Disciplinas do professor na turma",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "description": "Token cru, sem \"Bearer\". Hoje nenhuma rota exige autenticação.",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/subjects/:turmaId/:professorId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "subjects",
+                ":turmaId",
+                ":professorId"
+              ],
+              "variable": [
+                {
+                  "key": "turmaId",
+                  "value": "{{classId}}"
+                },
+                {
+                  "key": "professorId",
+                  "value": "{{teacherId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remover disciplina do professor",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "description": "Token cru, sem \"Bearer\". Hoje nenhuma rota exige autenticação.",
+                "disabled": true
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/remove/disciplina",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "remove",
+                "disciplina"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"professorEmail\": \"prof1@semg.edu\",\n  \"subjectNome\": \"Matemática\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Professor",
+      "item": [
+        {
+          "name": "Criar professor",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "description": "Token cru, sem \"Bearer\". Hoje nenhuma rota exige autenticação.",
+                "disabled": true
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/create/professor",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "create",
+                "professor"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": {\n    \"nome\": \"João Professor\",\n    \"email\": \"joao@semg.edu\",\n    \"senha\": \"123456\",\n    \"data_nascimento\": \"1985-03-10\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Listar professores",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "description": "Token cru, sem \"Bearer\". Hoje nenhuma rota exige autenticação.",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/teacherstt",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "teacherstt"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Perfil/turmas do professor",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "description": "Token cru, sem \"Bearer\". Hoje nenhuma rota exige autenticação.",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/teacherProfile/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "teacherProfile",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "{{teacherId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Disciplinas alocadas ao professor",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "description": "Token cru, sem \"Bearer\". Hoje nenhuma rota exige autenticação.",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/teachers-subjects/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "teachers-subjects",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "{{teacherId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Alocar professor (turma + disciplina)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "description": "Token cru, sem \"Bearer\". Hoje nenhuma rota exige autenticação.",
+                "disabled": true
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/allocation/teacher",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "allocation",
+                "teacher"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"teacherId\": \"{{teacherId}}\",\n  \"subjectId\": \"{{subjectId}}\",\n  \"classId\": \"{{classId}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remover professor",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "description": "Token cru, sem \"Bearer\". Hoje nenhuma rota exige autenticação.",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/remove/teacher/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "remove",
+                "teacher",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "{{teacherId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Aluno",
+      "item": [
+        {
+          "name": "Criar aluno (multipart)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "description": "Token cru, sem \"Bearer\". Hoje nenhuma rota exige autenticação.",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/aluno/create",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "aluno",
+                "create"
+              ]
+            },
+            "description": "Corpo multipart: campo \"data\" com JSON em string; \"file\" (imagem) opcional. O upload ao Firebase está desativado no servidor.",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "data",
+                  "type": "text",
+                  "value": "{\n  \"dataStudent\": {\n    \"nome\": \"Ana Aluna\",\n    \"data_nascimento\": \"2014-05-20\",\n    \"cpf\": \"12345678901\",\n    \"municipio_nascimento\": \"Fortaleza\",\n    \"uf_nascimento\": \"CE\"\n  },\n  \"dataAddress\": {\n    \"rua\": \"Rua das Flores, 100\",\n    \"cidade\": \"Fortaleza\",\n    \"estado\": \"CE\",\n    \"cep\": \"60000000\"\n  },\n  \"dataResponsibile\": {\n    \"nome_pai\": \"Carlos\",\n    \"nome_mae\": \"Beatriz\",\n    \"telefone\": \"85999999999\",\n    \"telefone_secundario\": \"85988888888\"\n  }\n}"
+                },
+                {
+                  "key": "file",
+                  "type": "file",
+                  "disabled": true,
+                  "src": []
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Perfil do aluno",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "description": "Token cru, sem \"Bearer\". Hoje nenhuma rota exige autenticação.",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/profile/:studantId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "profile",
+                ":studantId"
+              ],
+              "variable": [
+                {
+                  "key": "studantId",
+                  "value": "{{studentId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Alunos sem turma",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "description": "Token cru, sem \"Bearer\". Hoje nenhuma rota exige autenticação.",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/studant/noClasses",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "studant",
+                "noClasses"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Listar alunos (busca opcional)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "description": "Token cru, sem \"Bearer\". Hoje nenhuma rota exige autenticação.",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/studantss/:query",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "studantss",
+                ":query"
+              ],
+              "variable": [
+                {
+                  "key": "query",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remover aluno",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "description": "Token cru, sem \"Bearer\". Hoje nenhuma rota exige autenticação.",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/remove/studant/:studantId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "remove",
+                "studant",
+                ":studantId"
+              ],
+              "variable": [
+                {
+                  "key": "studantId",
+                  "value": "{{studentId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Matrícula",
+      "item": [
+        {
+          "name": "Matricular aluno",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "description": "Token cru, sem \"Bearer\". Hoje nenhuma rota exige autenticação.",
+                "disabled": true
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/matricular",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "matricular"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"numero_matricula\": \"2026001\",\n  \"status\": \"ativa\",\n  \"escola\": \"12345678\",\n  \"idTurma\": \"{{classId}}\",\n  \"alunoId\": \"{{studentId}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Alunos da turma",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "description": "Token cru, sem \"Bearer\". Hoje nenhuma rota exige autenticação.",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/studantee/:classId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "studantee",
+                ":classId"
+              ],
+              "variable": [
+                {
+                  "key": "classId",
+                  "value": "{{classId}}"
+                }
+              ]
+            },
+            "description": "Usa unaccent() do Postgres."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Notas",
+      "item": [
+        {
+          "name": "Lançar nota",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "description": "Token cru, sem \"Bearer\". Hoje nenhuma rota exige autenticação.",
+                "disabled": true
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/nota/:registrationId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "nota",
+                ":registrationId"
+              ],
+              "variable": [
+                {
+                  "key": "registrationId",
+                  "value": "{{registrationId}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tipo\": \"normal\",\n  \"nota\": 8.5,\n  \"mes\": 4,\n  \"semestre\": 1,\n  \"anoLetivo\": \"2026-01-01\",\n  \"disciplina\": \"{{subjectId}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Lançar notas em lote",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "description": "Token cru, sem \"Bearer\". Hoje nenhuma rota exige autenticação.",
+                "disabled": true
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/add/notas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "add",
+                "notas"
+              ]
+            },
+            "description": "\"header\" deve ser uma chave de assessmentData (src/useCase/notas/create).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"disciplinaId\": \"{{subjectId}}\",\n  \"anoLetivo\": 2026,\n  \"avaliacao\": {\n    \"a1\": {\n      \"matricula\": \"{{registrationId}}\",\n      \"header\": \"Nota 1\",\n      \"nota\": 7\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Notas do aluno por disciplina",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "description": "Token cru, sem \"Bearer\". Hoje nenhuma rota exige autenticação.",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/avaliacaos/:registrationId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "avaliacaos",
+                ":registrationId"
+              ],
+              "variable": [
+                {
+                  "key": "registrationId",
+                  "value": "{{registrationId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Planilha de rendimento",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "description": "Token cru, sem \"Bearer\". Hoje nenhuma rota exige autenticação.",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/redimentoss/:turmaId/:disciplinaId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "redimentoss",
+                ":turmaId",
+                ":disciplinaId"
+              ],
+              "variable": [
+                {
+                  "key": "turmaId",
+                  "value": "{{classId}}"
+                },
+                {
+                  "key": "disciplinaId",
+                  "value": "{{subjectId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Calendário",
+      "item": [
+        {
+          "name": "Criar aula no calendário",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "description": "Token cru, sem \"Bearer\". Hoje nenhuma rota exige autenticação.",
+                "disabled": true
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/calendario",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "calendario"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"weekDay\": \"segunda\",\n  \"dataHorario\": {\n    \"horarioInicio\": \"07:30\",\n    \"horarioFim\": \"08:20\"\n  },\n  \"allocationId\": \"{{allocationId}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Calendário da turma",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "description": "Token cru, sem \"Bearer\". Hoje nenhuma rota exige autenticação.",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/calendar/:classId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "calendar",
+                ":classId"
+              ],
+              "variable": [
+                {
+                  "key": "classId",
+                  "value": "{{classId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Horários",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "description": "Token cru, sem \"Bearer\". Hoje nenhuma rota exige autenticação.",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/horarios",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "horarios"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3333"
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "refreshTokenId",
+      "value": ""
+    },
+    {
+      "key": "classId",
+      "value": ""
+    },
+    {
+      "key": "teacherId",
+      "value": ""
+    },
+    {
+      "key": "studentId",
+      "value": ""
+    },
+    {
+      "key": "subjectId",
+      "value": ""
+    },
+    {
+      "key": "registrationId",
+      "value": ""
+    },
+    {
+      "key": "allocationId",
+      "value": ""
+    }
+  ]
+}
